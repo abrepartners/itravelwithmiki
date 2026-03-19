@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import UrgencyBadge from '@/components/UrgencyBadge';
 import type { Trip } from '@/types/trip';
@@ -60,7 +60,7 @@ const TripCard = ({ trip, featured = false, className }: TripCardProps) => {
             )}
           />
         ))}
-
+        
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
@@ -118,7 +118,7 @@ const TripCard = ({ trip, featured = false, className }: TripCardProps) => {
           <span className="text-sm font-medium">{trip.destination}</span>
         </div>
 
-        {/* Title — line-clamp-2 ensures ALL cards have the same header height */}
+        {/* Title */}
         <h3
           className={cn(
             'font-semibold text-card-foreground mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-snug',
