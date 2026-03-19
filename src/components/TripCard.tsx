@@ -147,52 +147,66 @@ const TripCard = ({ trip, featured = false, className }: TripCardProps) => {
         <div className="flex-grow" />
 
         {/* Price */}
-        <div className="flex items-baseline gap-2 mb-4 pt-3 border-t border-border/60">
-          {hasDiscount ? (
-            <>
-              <span className={cn('font-bold text-accent', featured ? 'text-3xl' : 'text-2xl')}>
-                ${trip.discountPrice?.toLocaleString()}
-              </span>
-              <span className="text-base text-muted-foreground line-through">
+        <div className="mb-4 pt-3 border-t border-border/60">
+          <div className="flex items-baseline gap-2">
+            {hasDiscount ? (
+              <>
+                <span className={cn('font-bold text-accent', featured ? 'text-3xl' : 'text-2xl')}>
+                  ${trip.discountPrice?.toLocaleString()}
+                </span>
+                <span className="text-base text-muted-foreground line-through">
+                  ${trip.price.toLocaleString()}
+                </span>
+              </>
+            ) : (
+              <span className={cn('font-bold text-foreground', featured ? 'text-3xl' : 'text-2xl')}>
                 ${trip.price.toLocaleString()}
               </span>
-            </>
-          ) : (
-            <span className={cn('font-bold text-foreground', featured ? 'text-3xl' : 'text-2xl')}>
-              ${trip.price.toLocaleString()}
+            )}
+            <span className="text-xs text-muted-foreground">
+              {trip.singlePrice ? 'dbl' : '/ person'}
             </span>
+          </div>
+          {trip.singlePrice && (
+            <p className="text-xs text-muted-foreground mt-0.5">
+              ${trip.singlePrice.toLocaleString()} single occupancy
+            </p>
           )}
-          <span className="text-xs text-muted-foreground">/ person</span>
         </div>
 
         {/* CTA Button */}
-        {trip.bookingUrl ? (
-          <Button
-            className={cn(
-              'w-full btn-senior group/btn',
-              trip.soldOut
-                ? 'bg-muted text-muted-foreground cursor-not-allowed'
-                : 'bg-primary hover:bg-primary/90',
-              featured && 'md:w-auto'
-            )}
-            disabled={trip.soldOut}
-            asChild={!trip.soldOut}
-          >
-            {trip.soldOut ? (
-              <span>Sold Out</span>
-            ) : (
-              <a href={trip.bookingUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                Book Now
+        {trip.soldOut ? (
+          trip.waitlistUrl ? (
+            <Button
+              className={cn('w-full btn-senior bg-amber-600 hover:bg-amber-700 text-white', featured && 'md:w-auto')}
+              asChild
+            >
+              <a href={trip.waitlistUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                Join Waitlist
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
               </a>
-            )}
+            </Button>
+          ) : (
+            <Button
+              className={cn('w-full btn-senior bg-muted text-muted-foreground cursor-not-allowed', featured && 'md:w-auto')}
+              disabled
+            >
+              Sold Out
+            </Button>
+          )
+        ) : trip.bookingUrl ? (
+          <Button
+            className={cn('w-full btn-senior bg-primary hover:bg-primary/90 group/btn', featured && 'md:w-auto')}
+            asChild
+          >
+            <a href={trip.bookingUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              Book Now
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+            </a>
           </Button>
         ) : (
           <Button
-            className={cn(
-              'w-full btn-senior bg-primary hover:bg-primary/90',
-              featured && 'md:w-auto'
-            )}
+            className={cn('w-full btn-senior bg-primary hover:bg-primary/90', featured && 'md:w-auto')}
           >
             Book Now
           </Button>
